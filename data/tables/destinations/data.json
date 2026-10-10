@@ -1,0 +1,151 @@
+{
+  "authority": {
+    "table_id": "destinations",
+    "table_version": "2026.10-rc1",
+    "modelled_authority": "EU consolidated sanctions + US EAR country groups + UN Security Council Consolidated List",
+    "status": "ILLUSTRATIVE_UNVERIFIED",
+    "effective_date": "2026-10-01",
+    "review_owner": "trade-compliance@<your-company>",
+    "review_cadence_days": 30,
+    "legal_notice": "Sanctions and embargo status changes without notice. This table must be refreshed from an authoritative feed (EU FSPO, OFAC, UN) on a daily cadence; 7 days is already a risk. Placeholder values.",
+    "operational_note": "Demo cadence is 30d. Production must refresh sanctions and embargo status daily from an authoritative feed and treat staleness as a hard stop."
+  },
+  "fields_doc": {
+    "presumption": "PROHIBITED = no licence can be granted by policy; DENY_REQUIRED = authority licence required with presumption of refusal; LICENCE = case-by-case authorisation; OPEN = general authorisation scheme available"
+  },
+  "destinations": {
+    "DE": {
+      "name": "Germany",
+      "risk_tier": "LOW",
+      "embargo": false,
+      "arms_embargo": false,
+      "presumption": "OPEN",
+      "general_authorisation_schemes": [
+        "EU001",
+        "EU008"
+      ],
+      "authority": "BAFA"
+    },
+    "FR": {
+      "name": "France",
+      "risk_tier": "LOW",
+      "embargo": false,
+      "arms_embargo": false,
+      "presumption": "OPEN",
+      "general_authorisation_schemes": [
+        "EU001",
+        "EU008"
+      ],
+      "authority": "SESD"
+    },
+    "NL": {
+      "name": "Netherlands",
+      "risk_tier": "LOW",
+      "embargo": false,
+      "arms_embargo": false,
+      "presumption": "OPEN",
+      "general_authorisation_schemes": [
+        "EU001"
+      ],
+      "authority": "VVED"
+    },
+    "US": {
+      "name": "United States",
+      "risk_tier": "LOW",
+      "embargo": false,
+      "arms_embargo": true,
+      "presumption": "OPEN",
+      "general_authorisation_schemes": [],
+      "authority": "BIS",
+      "note": "Arms embargo for certain categories applies domestically; check re-export chain."
+    },
+    "JP": {
+      "name": "Japan",
+      "risk_tier": "LOW",
+      "embargo": false,
+      "arms_embargo": true,
+      "presumption": "OPEN",
+      "general_authorisation_schemes": [],
+      "authority": "METI"
+    },
+    "KR": {
+      "name": "South Korea",
+      "risk_tier": "LOW",
+      "embargo": false,
+      "arms_embargo": false,
+      "presumption": "OPEN",
+      "general_authorisation_schemes": [],
+      "authority": "Motie"
+    },
+    "IN": {
+      "name": "India",
+      "risk_tier": "MEDIUM",
+      "embargo": false,
+      "arms_embargo": false,
+      "presumption": "LICENCE",
+      "general_authorisation_schemes": [],
+      "authority": "DGFT",
+      "end_use_certificate_required": true
+    },
+    "AE": {
+      "name": "United Arab Emirates",
+      "risk_tier": "MEDIUM",
+      "embargo": false,
+      "arms_embargo": false,
+      "presumption": "LICENCE",
+      "diversion_risk_flags": [
+        "re-export_to_sanctioned_territory"
+      ],
+      "authority": "MOIAT"
+    },
+    "CN": {
+      "name": "China",
+      "risk_tier": "ELEVATED",
+      "embargo": false,
+      "arms_embargo": false,
+      "presumption": "LICENCE",
+      "category_overrides": {
+        "5.A": "DENY_REQUIRED",
+        "3.A": "DENY_REQUIRED",
+        "6.A": "DENY_REQUIRED"
+      },
+      "end_use_certificate_required": true,
+      "authority": "MOFCOM"
+    },
+    "RU": {
+      "name": "Russia",
+      "risk_tier": "HIGH",
+      "embargo": true,
+      "arms_embargo": true,
+      "presumption": "DENY_REQUIRED",
+      "sectoral_programs": [
+        "EU-833-2014-industrial"
+      ],
+      "all_categories_require": [
+        "sanctions_derogation_assessment"
+      ],
+      "authority": "n/a - refusal default"
+    },
+    "IR": {
+      "name": "Iran",
+      "risk_tier": "HIGH",
+      "embargo": true,
+      "presumption": "PROHIBITED",
+      "authority": "n/a"
+    },
+    "KP": {
+      "name": "North Korea",
+      "risk_tier": "CRITICAL",
+      "embargo": true,
+      "presumption": "PROHIBITED",
+      "authority": "n/a"
+    },
+    "SY": {
+      "name": "Syria",
+      "risk_tier": "HIGH",
+      "embargo": true,
+      "presumption": "PROHIBITED",
+      "authority": "n/a"
+    }
+  }
+}

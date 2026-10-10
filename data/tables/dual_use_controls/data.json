@@ -1,0 +1,331 @@
+{
+  "authority": {
+    "table_id": "dual_use_controls",
+    "table_version": "2026.10-rc1",
+    "modelled_authority": "Regulation (EU) 2021/821 Annex I + Wassenaar Arrangement control lists",
+    "status": "ILLUSTRATIVE_UNVERIFIED",
+    "effective_date": "2026-10-01",
+    "review_owner": "trade-compliance@<your-company>",
+    "review_cadence_days": 180,
+    "legal_notice": "Parameter thresholds here are engineering placeholders for a running control plane. They MUST be replaced with text reconciled line-by-line against the official gazette PDF by a licensed trade-compliance officer before any production decision. The engine treats this status field as a hard signal: tables not marked VERIFIED can never produce a terminal ALLOW, only REVIEW.",
+    "source_sha256": null
+  },
+  "matching_contract": {
+    "condition_mode_default": "all_of",
+    "missing_required_param_outcome": "INDETERMINATE",
+    "no_control_matched_outcome": "UNCLASSIFIED_HUMAN_REVIEW",
+    "multiple_controls_matched_outcome": "AMBIGUOUS_HUMAN_REVIEW",
+    "note": "Default-deny posture: absence of a match is NOT the same as 'not controlled'."
+  },
+  "params": {
+    "symmetric_key_bits": {
+      "type": "number",
+      "unit": "bit"
+    },
+    "asymmetric_key_bits": {
+      "type": "number",
+      "unit": "bit"
+    },
+    "cotp_mops": {
+      "type": "number",
+      "unit": "Mtops"
+    },
+    "positioning_accuracy_um": {
+      "type": "number",
+      "unit": "um"
+    },
+    "simultaneously_controllable_axes": {
+      "type": "number",
+      "unit": "count"
+    },
+    "crypto_function": {
+      "type": "boolean",
+      "unit": null
+    },
+    "primary_function_is_crypto": {
+      "type": "boolean",
+      "unit": null
+    },
+    "generally_available_retail": {
+      "type": "boolean",
+      "unit": null
+    },
+    "mass_market_declared": {
+      "type": "boolean",
+      "unit": null
+    },
+    "crypto_algorithm_custom": {
+      "type": "boolean",
+      "unit": null
+    },
+    "source_code_available_for_declassification": {
+      "type": "boolean",
+      "unit": null
+    },
+    "wireless_encryption_function": {
+      "type": "boolean",
+      "unit": null
+    },
+    "ir_focal_plane_array": {
+      "type": "boolean",
+      "unit": null
+    },
+    "wavelength_nm": {
+      "type": "number",
+      "unit": "nm"
+    },
+    "pulse_energy_mj": {
+      "type": "number",
+      "unit": "mJ"
+    },
+    "max_data_transfer_rate_mbps": {
+      "type": "number",
+      "unit": "Mbit/s"
+    },
+    "item_description": {
+      "type": "text",
+      "unit": null
+    }
+  },
+  "controls": [
+    {
+      "control_id": "5A002",
+      "schedule": "EU-ANNEX-I",
+      "category": "5.A",
+      "title": "Cryptographic items (Category 5 Part 2 - Information Security)",
+      "required_params": [
+        "crypto_function"
+      ],
+      "conditions": [
+        {
+          "any_of": [
+            {
+              "param": "symmetric_key_bits",
+              "op": "gt",
+              "value": 56
+            },
+            {
+              "param": "asymmetric_key_bits",
+              "op": "gt",
+              "value": 128
+            }
+          ]
+        }
+      ],
+      "condition_mode": "all_of",
+      "licence_requirement": "EXPORT_AUTHORISATION",
+      "exclusions": [
+        {
+          "exclusion_id": "5A992-MASS-MARKET",
+          "title": "Mass-market cryptography qualification (notified / declassified route)",
+          "required_params": [
+            "mass_market_declared",
+            "generally_available_retail",
+            "crypto_algorithm_custom",
+            "source_code_available_for_declassification"
+          ],
+          "conditions": [
+            {
+              "param": "mass_market_declared",
+              "op": "is_true"
+            },
+            {
+              "param": "generally_available_retail",
+              "op": "is_true"
+            },
+            {
+              "param": "crypto_algorithm_custom",
+              "op": "is_false"
+            },
+            {
+              "param": "source_code_available_for_declassification",
+              "op": "is_true"
+            }
+          ],
+          "effect": "DOWNGRADE_TO_LICENCE_EXEMPT_NOTIFICATION",
+          "still_requires": [
+            "declassification_or_notification_evidence"
+          ]
+        },
+        {
+          "exclusion_id": "5A002-CAR-SECURITY",
+          "title": "Vehicle / machine on-board secure processor (primary function not crypto)",
+          "required_params": [
+            "primary_function_is_crypto",
+            "crypto_algorithm_custom"
+          ],
+          "conditions": [
+            {
+              "param": "primary_function_is_crypto",
+              "op": "is_false"
+            },
+            {
+              "param": "crypto_algorithm_custom",
+              "op": "is_false"
+            }
+          ],
+          "effect": "DOWNGRADE_TO_REVIEW",
+          "still_requires": [
+            "primary_function_teardown_evidence"
+          ],
+          "rationale": "The 'encryption is incidental' claim is the single most common exporter misclassification. Evidence is mandatory, so it routes to a human rather than clearing automatically."
+        }
+      ]
+    },
+    {
+      "control_id": "3A001.d",
+      "schedule": "EU-ANNEX-I",
+      "category": "3.A",
+      "title": "Microprocessors / microcomputer ICs above performance threshold",
+      "required_params": [
+        "cotp_mops"
+      ],
+      "conditions": [
+        {
+          "param": "cotp_mops",
+          "op": "gt",
+          "value": 250
+        }
+      ],
+      "condition_mode": "all_of",
+      "licence_requirement": "EXPORT_AUTHORISATION"
+    },
+    {
+      "control_id": "4A001.b",
+      "schedule": "EU-ANNEX-I",
+      "category": "4.A",
+      "title": "Digital computers / assemblies above composite theoretical performance",
+      "required_params": [
+        "cotp_mops"
+      ],
+      "conditions": [
+        {
+          "param": "cotp_mops",
+          "op": "gt",
+          "value": 250
+        }
+      ],
+      "condition_mode": "all_of",
+      "licence_requirement": "EXPORT_AUTHORISATION"
+    },
+    {
+      "control_id": "2B006",
+      "schedule": "EU-ANNEX-I",
+      "category": "2.B",
+      "title": "Dimensional measurement instruments with sub-micron accuracy",
+      "required_params": [
+        "positioning_accuracy_um"
+      ],
+      "conditions": [
+        {
+          "param": "positioning_accuracy_um",
+          "op": "lte",
+          "value": 1.5
+        }
+      ],
+      "condition_mode": "all_of",
+      "licence_requirement": "EXPORT_AUTHORISATION"
+    },
+    {
+      "control_id": "2B001",
+      "schedule": "EU-ANNEX-I",
+      "category": "2.B",
+      "title": "Numerical control units for machine tools (simultaneous axes)",
+      "required_params": [
+        "simultaneously_controllable_axes"
+      ],
+      "conditions": [
+        {
+          "param": "simultaneously_controllable_axes",
+          "op": "gte",
+          "value": 5
+        }
+      ],
+      "condition_mode": "all_of",
+      "licence_requirement": "EXPORT_AUTHORISATION"
+    },
+    {
+      "control_id": "6A003.b",
+      "schedule": "EU-ANNEX-I",
+      "category": "6.A",
+      "title": "Directed energy / laser transmitters",
+      "required_params": [
+        "pulse_energy_mj",
+        "wavelength_nm"
+      ],
+      "conditions": [
+        {
+          "param": "pulse_energy_mj",
+          "op": "gt",
+          "value": 50
+        },
+        {
+          "param": "wavelength_nm",
+          "op": "in_range",
+          "value": [
+            400,
+            1600
+          ]
+        }
+      ],
+      "condition_mode": "all_of",
+      "licence_requirement": "EXPORT_AUTHORISATION"
+    },
+    {
+      "control_id": "6A003.a",
+      "schedule": "EU-ANNEX-I",
+      "category": "6.A",
+      "title": "Focal plane arrays (imaging, including IR)",
+      "required_params": [
+        "ir_focal_plane_array"
+      ],
+      "conditions": [
+        {
+          "param": "ir_focal_plane_array",
+          "op": "is_true"
+        }
+      ],
+      "condition_mode": "all_of",
+      "licence_requirement": "EXPORT_AUTHORISATION"
+    },
+    {
+      "control_id": "5A001.n",
+      "schedule": "EU-ANNEX-I",
+      "category": "5.A",
+      "title": "Communication / radar equipment above data-rate threshold",
+      "required_params": [
+        "max_data_transfer_rate_mbps"
+      ],
+      "conditions": [
+        {
+          "param": "max_data_transfer_rate_mbps",
+          "op": "gt",
+          "value": 30000
+        }
+      ],
+      "condition_mode": "all_of",
+      "licence_requirement": "EXPORT_AUTHORISATION"
+    }
+  ],
+  "catch_alls": [
+    {
+      "rule_id": "CAT-SCAN-01",
+      "title": "Category scan: description contains controlled-function vocabulary",
+      "params": [
+        "item_description"
+      ],
+      "terms": [
+        "cipher",
+        "cryptograph",
+        "encrypt",
+        "gaea",
+        "focal plane array",
+        "inertial",
+        "numerical control",
+        "quantum"
+      ],
+      "outcome": "AMBIGUOUS_HUMAN_REVIEW",
+      "rationale": "Lexical trigger for items whose parameters were not extracted; prevents a silent 'no match -> uncontrolled' path."
+    }
+  ]
+}

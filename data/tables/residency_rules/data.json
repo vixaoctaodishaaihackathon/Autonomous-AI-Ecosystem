@@ -1,0 +1,195 @@
+{
+  "authority": {
+    "table_id": "residency_rules",
+    "table_version": "2026.10-rc1",
+    "status": "ILLUSTRATIVE_UNVERIFIED",
+    "effective_date": "2026-10-01",
+    "legal_notice": "Data-category residency is a control design, not a legal conclusion. Each row must be signed off by the DPO for the relevant jurisdiction.",
+    "review_cadence_days": 90
+  },
+  "residency_modes_doc": {
+    "SOURCE_ONLY": "Copies may exist and be processed only in the jurisdiction of collection. Cross-border analytics must operate on aggregated/synthetic output produced in-region.",
+    "REGION_ALLOWLIST": "Processing permitted in the listed regions only.",
+    "ADEQUACY_OR_BETTER": "Processing permitted where the destination has an adequacy decision or an approved transfer mechanism, subject to the mechanism ladder.",
+    "AGGREGATE_ONLY_CROSS_BORDER": "Row-level data stays in-region; only aggregates above the k-threshold may leave.",
+    "UNRESTRICTED": "No residency constraint from this table (other policy packs may still apply)."
+  },
+  "categories": {
+    "customer_pii": {
+      "residency_mode": "ADEQUACY_OR_BETTER",
+      "sensitive": true,
+      "max_retention_days": 730,
+      "min_k_anonymity_for_cross_border_aggregate": 20,
+      "basis": [
+        "GDPR Art.44"
+      ],
+      "obligations_always": [
+        "DPIA_REFERENCE",
+        "SUBJECT_RIGHTS_ROUTING",
+        "ENCRYPTION_AT_REST_IN_REGION"
+      ]
+    },
+    "health_or_biometric": {
+      "residency_mode": "SOURCE_ONLY",
+      "sensitive": true,
+      "special_category": true,
+      "max_retention_days": 365,
+      "basis": [
+        "GDPR Art.9",
+        "DPDP Act S.2-3"
+      ],
+      "obligations_always": [
+        "EXPLICIT_CONSENT_EVIDENCE",
+        "DPIA_REQUIRED",
+        "NO_INFERENCE_WITHOUT_HUMAN_REVIEW"
+      ],
+      "prohibited_purposes": [
+        "competitive_benchmarking",
+        "price_optimisation",
+        "advertising"
+      ]
+    },
+    "employee_payroll": {
+      "residency_mode": "SOURCE_ONLY",
+      "sensitive": true,
+      "jurisdiction_override": {
+        "DE": "DE_ONLY"
+      },
+      "max_retention_days": 3650,
+      "basis": [
+        "BDSG S.26",
+        "works council agreements"
+      ],
+      "obligations_always": [
+        "WORKS_COUNCIL_CONSULTED",
+        "DPIA_REQUIRED"
+      ]
+    },
+    "payment_card_data": {
+      "residency_mode": "SOURCE_ONLY",
+      "sensitive": true,
+      "hard_localisation": true,
+      "max_retention_days": 90,
+      "basis": [
+        "RBI payment data localisation",
+        "PCI DSS"
+      ],
+      "prohibited_purposes": [
+        "cross_border_analytics",
+        "competitive_benchmarking"
+      ],
+      "obligations_always": [
+        "TOKENISATION",
+        "NO_PAN_IN_LOGS"
+      ]
+    },
+    "vehicle_sensor_telemetry": {
+      "residency_mode": "AGGREGATE_ONLY_CROSS_BORDER",
+      "sensitive": false,
+      "max_retention_days": 180,
+      "min_k_anonymity_for_cross_border_aggregate": 50,
+      "basis": [
+        "EU Data Act Ch.III",
+        "connected vehicle codes of conduct"
+      ],
+      "obligations_always": [
+        "GEO_GENERALISATION_TO_H3_RES_5",
+        "CONTRACT_DATA_SHARING_EVIDENCE"
+      ]
+    },
+    "manufacturing_process_telemetry": {
+      "residency_mode": "REGION_ALLOWLIST",
+      "allowed_regions": [
+        "EU",
+        "DE",
+        "NL",
+        "US",
+        "IN",
+        "CN",
+        "BR",
+        "AE",
+        "JP",
+        "KR"
+      ],
+      "sensitive": false,
+      "max_retention_days": 730,
+      "basis": [
+        "trade secret protection",
+        "export-controlled technical data"
+      ],
+      "obligations_always": [
+        "TECHNICAL_DATA_EXPORT_SCREEN",
+        "TENANT_ISOLATION_KEY"
+      ],
+      "note": "Process parameters can themselves be controlled technology - the export-control pack must run over this payload too."
+    },
+    "competitive_intelligence_scraped": {
+      "residency_mode": "REGION_ALLOWLIST",
+      "allowed_regions": [
+        "EU",
+        "US",
+        "SG",
+        "JP"
+      ],
+      "sensitive": false,
+      "max_retention_days": 365,
+      "basis": [
+        "Tos/robot-exclusion obligations",
+        "database right (EU Directive 96/9/EC)"
+      ],
+      "obligations_always": [
+        "CRAWLER_ROBOTS_EVIDENCE",
+        "SOURCE_URL_PROVENANCE",
+        "NO_PERSONAL_DATA_COMBINING"
+      ],
+      "prohibited_purposes": [
+        "automated_pricing_commitment_without_human_approval"
+      ]
+    },
+    "government_classified": {
+      "residency_mode": "SOURCE_ONLY",
+      "sensitive": true,
+      "hard_localisation": true,
+      "classification_gate": true,
+      "prohibited_purposes": [
+        "any_agentic_processing",
+        "cross_border_analytics",
+        "aggregation"
+      ],
+      "obligations_always": [
+        "HUMAN_SECURITY_OFFICER_APPROVAL"
+      ]
+    },
+    "contract_and_invoice_data": {
+      "residency_mode": "ADEQUACY_OR_BETTER",
+      "sensitive": false,
+      "max_retention_days": 3650,
+      "basis": [
+        "tax record-keeping",
+        "audit law"
+      ],
+      "obligations_always": [
+        "E_INVOICING_FORMAT_CHECK"
+      ]
+    }
+  },
+  "jurisdiction_hard_rules": [
+    {
+      "rule_id": "HR-IN-01",
+      "jurisdiction": "IN",
+      "when_category": "payment_master_key",
+      "mode": "SOURCE_ONLY",
+      "basis": "RBI"
+    },
+    {
+      "rule_id": "HR-CN-01",
+      "jurisdiction": "CN",
+      "any_category": true,
+      "when_volume_exceeds": 100000,
+      "requires": [
+        "CAC_SECURITY_ASSESSMENT"
+      ],
+      "basis": "PIPL Art.40"
+    }
+  ]
+}

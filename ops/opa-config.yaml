@@ -1,0 +1,30 @@
+# OPA sidecar configuration: policy bundle hot-reload.
+#
+# scripts/opa_serve.sh renders {{SERVICE_URL}} and writes
+# ops/opa-config.generated.yaml. A new decision never waits on a service deploy:
+# rebuild the bundle, and the sidecar picks it up on its poll interval.
+#
+# OPA's bundle plugin only speaks HTTP - a file:// resource is not supported and
+# the loader dials the service regardless - so even a laptop run puts the
+# artifact behind a local store endpoint. In production that endpoint is the CI
+# artefact store (S3, GCS, nginx), which also supplies the ETag that lets an
+# unchanged poll cost one HEAD-sized round trip.
+#
+# Only `service` and `persist` are accepted here: `polling` and `resources` are
+# not valid under the top-level `bundles` shorthand, and naming the artifact
+# `bundles/policy` matches OPA's default pull path /bundles/<name>.
+bundles:
+  policy:
+    service: bundle_store
+    # Do not copy the artefact into OPA's data dir; the bundle on disk in
+    # builds/ is the only copy an operator can reason about.
+    persist: false
+
+services:
+  bundle_store:
+    url: "{{SERVICE_URL}}"
+
+# Verdicts are recorded in the engine's hash-chained ledger, not in OPA's own log
+# stream: two sinks for one decision would drift.
+decision_logs:
+  console: false

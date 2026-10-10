@@ -1,0 +1,153 @@
+{
+  "authority": {
+    "table_id": "jurisdictions",
+    "table_version": "2026.10-rc1",
+    "status": "ILLUSTRATIVE_UNVERIFIED",
+    "effective_date": "2026-10-01",
+    "review_owner": "privacy-office@<your-company>",
+    "legal_notice": "Adequacy and residency defaults are a curated snapshot. Verify against the Commission's published adequacy decisions and local regulator guidance before relying on a transfer.",
+    "review_cadence_days": 90
+  },
+  "jurisdictions": {
+    "EU": {
+      "name": "European Union / EEA",
+      "instruments": [
+        "GDPR Art.44-49",
+        "EU Charter Art.7-8",
+        "EU Data Act (connected products)"
+      ],
+      "default_residency_scope": "EEA",
+      "regulator": "EDPB / national DPAs",
+      "transfer_basis_ranking": [
+        "ADEQUACY",
+        "SCC",
+        "BCR",
+        "DEROGATION"
+      ]
+    },
+    "DE": {
+      "name": "Germany",
+      "instruments": [
+        "BDSG",
+        "GDPR"
+      ],
+      "default_residency_scope": "DE",
+      "special_categories_local": [
+        "employee_payroll",
+        "works_council_data"
+      ],
+      "regulator": "Federal / state DPAs"
+    },
+    "IN": {
+      "name": "India",
+      "instruments": [
+        "DPDP Act 2023",
+        "DPDP Rules 2025",
+        "RBI payment data localisation"
+      ],
+      "default_residency_scope": "IN",
+      "hard_localisation": [
+        "payment_master_key",
+        "biometric_authenticator"
+      ],
+      "regulator": "Data Protection Board of India",
+      "transfer_basis_ranking": [
+        "CONTRACT_NECESSITY",
+        "CONSENT",
+        "GOVT_APPROVED_ROUTE"
+      ]
+    },
+    "CN": {
+      "name": "China",
+      "instruments": [
+        "PIPL Art.38-40",
+        "CAC Security Assessment Measures",
+        "Data Cross-Border Certification"
+      ],
+      "default_residency_scope": "CN",
+      "hard_localisation": [
+        "重要数据",
+        "personal_info_above_volume_threshold"
+      ],
+      "volume_threshold_personal_info": 1000000,
+      "requires_cac_assessment_above": 100000,
+      "regulator": "CAC",
+      "transfer_basis_ranking": [
+        "CAC_SECURITY_ASSESSMENT",
+        "CERTIFICATION",
+        "STANDARD_CONTRACT"
+      ]
+    },
+    "BR": {
+      "name": "Brazil",
+      "instruments": [
+        "LGPD Art.33",
+        "ANPD SCCs"
+      ],
+      "default_residency_scope": "BR",
+      "regulator": "ANPD",
+      "transfer_basis_ranking": [
+        "ADEQUACY",
+        "SCC",
+        "BCR"
+      ]
+    },
+    "US": {
+      "name": "United States",
+      "instruments": [
+        "State privacy patchwork",
+        "sectoral (HIPAA, GLBA)"
+      ],
+      "default_residency_scope": "US",
+      "regulator": "FTC / state AGs",
+      "transfer_basis_ranking": [
+        "SCC",
+        "DPF",
+        "DEROGATION"
+      ]
+    },
+    "AE": {
+      "name": "United Arab Emirates",
+      "instruments": [
+        "Federal Decree-Law 45/2021",
+        "DIFC DP Law 5/2020"
+      ],
+      "default_residency_scope": "AE",
+      "regulator": "Data Office / DIFC Commissioner",
+      "transfer_basis_ranking": [
+        "ADEQUACY",
+        "SCC"
+      ]
+    }
+  },
+  "adequacy": {
+    "source": "EU Commission adequacy decisions (snapshot)",
+    "recognised": {
+      "AD": "Andorra",
+      "AR": "Argentina",
+      "CA": "Canada (commercial organisations)",
+      "FO": "Faroe Islands",
+      "GG": "Guernsey",
+      "IL": "Israel",
+      "IM": "Isle of Man",
+      "JP": "Japan",
+      "JE": "Jersey",
+      "NZ": "New Zealand",
+      "KR": "South Korea",
+      "CH": "Switzerland",
+      "TR": "Türkiye",
+      "AE": "UAE",
+      "UK": "United Kingdom",
+      "UY": "Uruguay"
+    },
+    "conditional": {
+      "US": {
+        "basis": "EU-US Data Privacy Framework",
+        "requires": [
+          "importer_certified_dpf"
+        ],
+        "fallback": "SCC"
+      }
+    }
+  }
+}

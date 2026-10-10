@@ -1,0 +1,83 @@
+{
+  "tenant_id": "tnt_orchid_mobility",
+  "display_name": "Orchid Mobility Systems Ltd (Shanghai)",
+  "status": "ACTIVE",
+  "data_residency_commitment": "China-origin vehicle and process data is assessed by the Shanghai CAC before any cross-border analytics; nothing leaves cn-beijing-1 without a filed route.",
+  "operating_jurisdictions": [
+    "CN",
+    "IN"
+  ],
+  "approved_processing_regions": [
+    "cn-beijing-1",
+    "in-mh-1"
+  ],
+  "forbidden_processing_regions": [
+    "us-east-1",
+    "eu-de-1"
+  ],
+  "registries": [
+    {
+      "registry_id": "reg-oc-shanghai-plant",
+      "jurisdiction": "CN",
+      "home_region": "cn-beijing-1",
+      "categories": [
+        "manufacturing_process_telemetry",
+        "customer_pii"
+      ]
+    },
+    {
+      "registry_id": "reg-oc-bengaluru-support",
+      "jurisdiction": "IN",
+      "home_region": "in-mh-1",
+      "categories": [
+        "customer_pii"
+      ]
+    }
+  ],
+  "approved_purposes": [
+    "predictive_maintenance",
+    "cross_border_operational_analytics",
+    "competitive_pricing_intelligence"
+  ],
+  "transfer_evidence": {
+    "scc_filing_receipt_ref": "CAC-SH-SCC-2026-118",
+    "contract_clause_ref": "MSA-OC-IN-2026-cl2.1",
+    "cac_filing_approval_ref": false,
+    "note": "No completed CAC security assessment on file; the standard-contract filing is the only registered route."
+  },
+  "agents": [
+    {
+      "agent_id": "agt-pricing-scout-cn",
+      "tool_class": [
+        "browser_capture",
+        "headline_parsing"
+      ],
+      "operating_regions": [
+        "cn-beijing-1"
+      ],
+      "allowed_purposes": [
+        "competitive_pricing_intelligence"
+      ],
+      "autonomy_level": "RECOMMEND_ONLY",
+      "may_write_pii": false
+    },
+    {
+      "agent_id": "agt-telemetry-rollup-cn",
+      "tool_class": [
+        "analytics_query"
+      ],
+      "operating_regions": [
+        "cn-beijing-1",
+        "in-mh-1"
+      ],
+      "allowed_purposes": [
+        "cross_border_operational_analytics",
+        "predictive_maintenance"
+      ],
+      "autonomy_level": "EXECUTE_WITHIN_BOUNDS",
+      "may_write_pii": false,
+      "aggregate_only_read": true,
+      "min_k_anonymity": 50
+    }
+  ]
+}

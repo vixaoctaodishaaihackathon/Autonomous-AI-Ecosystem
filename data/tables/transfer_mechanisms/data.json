@@ -1,0 +1,245 @@
+{
+  "authority": {
+    "table_id": "transfer_mechanisms",
+    "table_version": "2026.10-rc1",
+    "status": "ILLUSTRATIVE_UNVERIFIED",
+    "effective_date": "2026-10-01",
+    "legal_notice": "Mechanism applicability conditions are encoded as evidence requirements. The engine will not select a mechanism whose evidence references are absent, even if an LLM asserts the mechanism applies.",
+    "review_cadence_days": 90
+  },
+  "selection_order_doc": "Lowest rank that is fully evidenced wins. A mechanism is APPLICABLE only when every condition holds; it is SELECTED only when every evidence_ref is present in the request. Unevidenced applicability yields HUMAN_REVIEW, never ALLOW.",
+  "mechanisms": [
+    {
+      "mechanism_id": "EU_ADEQUACY",
+      "rank": 1,
+      "exporting_jurisdictions": [
+        "EU"
+      ],
+      "conditions": [
+        {
+          "op": "destination_adequate",
+          "param": "destination_jurisdiction"
+        }
+      ],
+      "evidence_refs": [],
+      "obligations": [
+        "KEEP_ADEQUACY_SNAPSHOT_VERSION",
+        "PUBLISH_TRANSFER_REGISTER_ENTRY"
+      ],
+      "auto_clear": true
+    },
+    {
+      "mechanism_id": "EU_US_DPF",
+      "rank": 2,
+      "exporting_jurisdictions": [
+        "EU"
+      ],
+      "conditions": [
+        {
+          "op": "is_true",
+          "param": "importer_certified_dpf"
+        }
+      ],
+      "evidence_refs": [
+        "dpf_program_participant_ref"
+      ],
+      "obligations": [
+        "VERIFY_DPF_LISTING_DATE_MATCHES_TRANSFER",
+        "SCC_FALLBACK_IF_DELISTED"
+      ],
+      "auto_clear": false
+    },
+    {
+      "mechanism_id": "SCC_MODULE_2_C2P",
+      "rank": 3,
+      "exporting_jurisdictions": [
+        "EU",
+        "BR"
+      ],
+      "conditions": [
+        {
+          "op": "in",
+          "param": "relationship",
+          "value": [
+            "CONTROLLER_TO_PROCESSOR",
+            "CONTROLLER_TO_CONTROLLER"
+          ]
+        },
+        {
+          "op": "is_false",
+          "param": "importer_is_public_authority"
+        }
+      ],
+      "evidence_refs": [
+        "scc_signed_doc_ref",
+        "transfer_risk_assessment_ref",
+        "supplementary_measures_ref"
+      ],
+      "obligations": [
+        "ATTACH_SCC_MODULE_BY_RELATIONSHIP",
+        "TRANSFER_RISK_ASSESSMENT_CURRENT",
+        "ONWARD_TRANSFER_SUBPROCESSOR_LIST"
+      ],
+      "auto_clear": false
+    },
+    {
+      "mechanism_id": "SCC_MODULE_1_P2P",
+      "rank": 3,
+      "exporting_jurisdictions": [
+        "EU",
+        "BR"
+      ],
+      "conditions": [
+        {
+          "op": "eq",
+          "param": "relationship",
+          "value": "PROCESSOR_TO_PROCESSOR"
+        }
+      ],
+      "evidence_refs": [
+        "scc_signed_doc_ref",
+        "transfer_risk_assessment_ref"
+      ],
+      "obligations": [
+        "ATTACH_SCC_MODULE_1",
+        "FLOW_DOWN_TO_SUBPROCESSORS"
+      ],
+      "auto_clear": false
+    },
+    {
+      "mechanism_id": "BCR",
+      "rank": 4,
+      "exporting_jurisdictions": [
+        "EU"
+      ],
+      "conditions": [
+        {
+          "op": "is_true",
+          "param": "same_corporate_group"
+        },
+        {
+          "op": "is_true",
+          "param": "bcr_approved_by_dpa"
+        }
+      ],
+      "evidence_refs": [
+        "bcr_approval_decision_ref"
+      ],
+      "obligations": [
+        "BINDING_CORPORATE_RULES_IN_FORCE",
+        "GROUP_ENFORCEMENT_JURISDICTION_NAMED"
+      ],
+      "auto_clear": false
+    },
+    {
+      "mechanism_id": "DEROGATION_EXPLICIT_CONSENT",
+      "rank": 5,
+      "exporting_jurisdictions": [
+        "EU"
+      ],
+      "conditions": [
+        {
+          "op": "is_true",
+          "param": "data_subject_explicit_consent"
+        },
+        {
+          "op": "is_false",
+          "param": "transfer_is_repetitive"
+        }
+      ],
+      "evidence_refs": [
+        "consent_record_ref"
+      ],
+      "obligations": [
+        "CONSENT_WITHDRAWAL_ROUTING",
+        "NARROW_TO_THIS_TRANSFER_ONLY"
+      ],
+      "auto_clear": false,
+      "ceiling": "HUMAN_REVIEW",
+      "note": "Art.49 derogations are exceptions. Even perfectly evidenced, they never auto-clear in this engine."
+    },
+    {
+      "mechanism_id": "IN_CONTRACT_NECESSITY",
+      "rank": 1,
+      "exporting_jurisdictions": [
+        "IN"
+      ],
+      "conditions": [
+        {
+          "op": "is_true",
+          "param": "necessary_for_performance_of_contract"
+        }
+      ],
+      "evidence_refs": [
+        "contract_clause_ref"
+      ],
+      "obligations": [
+        "DPDP_S23_NOTICE_DISCLOSURE"
+      ],
+      "auto_clear": false,
+      "ceiling": "HUMAN_REVIEW",
+      "note": "DPDP Rules place heavy conditions on cross-border routes; treat as review-bound."
+    },
+    {
+      "mechanism_id": "CN_CAC_SECURITY_ASSESSMENT",
+      "rank": 1,
+      "exporting_jurisdictions": [
+        "CN"
+      ],
+      "conditions": [
+        {
+          "op": "is_true",
+          "param": "cac_assessment_passed"
+        }
+      ],
+      "evidence_refs": [
+        "cac_filing_approval_ref"
+      ],
+      "obligations": [
+        "REASSESS_ON_MATERIAL_VOLUME_CHANGE",
+        "SEPARATE_CONSENT_EVIDENCE"
+      ],
+      "auto_clear": false
+    },
+    {
+      "mechanism_id": "CN_STANDARD_CONTRACT_FILING",
+      "rank": 2,
+      "exporting_jurisdictions": [
+        "CN"
+      ],
+      "conditions": [
+        {
+          "op": "is_true",
+          "param": "standard_contract_filed_with_provincial_cac"
+        }
+      ],
+      "evidence_refs": [
+        "scc_filing_receipt_ref"
+      ],
+      "obligations": [
+        "VOLUME_STAY_BELOW_CAC_THRESHOLD"
+      ],
+      "auto_clear": false,
+      "ceiling": "HUMAN_REVIEW"
+    }
+  ],
+  "no_mechanism_found_outcome": "DENY_TRANSFER",
+  "obligation_catalog": {
+    "ENCRYPTION_AT_REST_IN_REGION": "Customer-managed key held in the source region KMS; no key export.",
+    "DPIA_REQUIRED": "Data Protection Impact Assessment must exist and be current for this purpose.",
+    "DPIA_REFERENCE": "Existing DPIA must be cited in the job manifest.",
+    "GEO_GENERALISATION_TO_H3_RES_5": "Coerce raw coordinates before any cross-border read.",
+    "TOKENISATION": "Replace PAN with token before pipeline exit.",
+    "NO_PAN_IN_LOGS": "Redaction assertion on every log sink.",
+    "TECHNICAL_DATA_EXPORT_SCREEN": "Run the export-control pack over the payload; technology can be controlled data.",
+    "WORKS_COUNCIL_CONSULTED": "Evidence of local co-determination consultation.",
+    "SUBJECT_RIGHTS_ROUTING": "Access/erasure requests must be servable from the region holding the data.",
+    "SOURCE_URL_PROVENANCE": "Every scraped datum must carry its capture URL and timestamp.",
+    "CRAWLER_ROBOTS_EVIDENCE": "robots.txt / ToS snapshot captured at crawl time.",
+    "NO_PERSONAL_DATA_COMBINING": "Competitive intel must not be joined to identified individuals.",
+    "E_INVOICING_FORMAT_CHECK": "Validate against the destination's mandatory e-invoice schema.",
+    "HUMAN_SECURITY_OFFICER_APPROVAL": "Terminal gate; no automated path.",
+    "TRANSFER_REGISTER_ENTRY": "Record in the Art.30 processing/transfer register.",
+    "KEEP_ADEQUACY_SNAPSHOT_VERSION": "Pin the adequacy table version used for the decision."
+  }
+}

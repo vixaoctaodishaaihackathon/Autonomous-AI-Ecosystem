@@ -1,0 +1,41 @@
+{
+  "tenant_id": "tnt_northwind_healthlogistics",
+  "display_name": "Northwind Health Logistics Pvt Ltd",
+  "status": "ACTIVE",
+  "data_residency_commitment": "Health and payment data are hard-localised in India; only k-anonymised aggregates leave in-mh-1.",
+  "operating_jurisdictions": ["IN", "AE"],
+  "approved_processing_regions": ["in-mh-1", "ae-1"],
+  "forbidden_processing_regions": ["us-east-1"],
+  "registries": [
+    { "registry_id": "reg-nw-patient-route", "jurisdiction": "IN", "home_region": "in-mh-1", "categories": ["health_or_biometric", "customer_pii"] },
+    { "registry_id": "reg-nw-payments", "jurisdiction": "IN", "home_region": "in-mh-1", "categories": ["payment_card_data"] },
+    { "registry_id": "reg-nw-market", "jurisdiction": "AE", "home_region": "ae-1", "categories": ["competitive_intelligence_scraped"] }
+  ],
+  "approved_purposes": ["route_optimisation", "cross_border_operational_analytics", "competitive_pricing_intelligence"],
+  "transfer_evidence": {
+    "consent_record_ref": "CONSENT-NW-2026-0455",
+    "transfer_is_repetitive": false,
+    "contract_clause_ref": "MSA-NW-GULF-2026-cl4.2",
+    "dpia_ref": "DPIA-NW-health-2026-02"
+  },
+  "agents": [
+    {
+      "agent_id": "agt-route-optimizer-in",
+      "tool_class": ["analytics_query"],
+      "operating_regions": ["in-mh-1"],
+      "allowed_purposes": ["route_optimisation"],
+      "autonomy_level": "EXECUTE_WITHIN_BOUNDS",
+      "may_write_pii": false,
+      "aggregate_only_read": true,
+      "min_k_anonymity": 30
+    },
+    {
+      "agent_id": "agt-pricing-scout-mea",
+      "tool_class": ["browser_capture"],
+      "operating_regions": ["ae-1"],
+      "allowed_purposes": ["competitive_pricing_intelligence"],
+      "autonomy_level": "RECOMMEND_ONLY",
+      "may_write_pii": false
+    }
+  ]
+}

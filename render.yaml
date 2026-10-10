@@ -1,0 +1,40 @@
+# Render blueprint: https://render.com/docs/blueprint-spec
+#
+# Free plan is the cheapest path to a demo URL, with two consequences this service
+# should not be judged on: the filesystem is ephemeral, so var/decisions.jsonl is
+# empty after every redeploy or sleep, and free instances idle when unused.
+# For a ledger that survives, move to plan: starter and uncomment the disk block -
+# the ledger is the point of the engine, so an empty audit trail is not a small
+# detail.
+services:
+  - type: web
+    name: compliance-engine
+    runtime: docker
+    plan: free
+    region: ohio
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /readyz
+    autoDeploy: true
+    envVars:
+      - key: ENGINE_HOST
+        value: 0.0.0.0
+      - key: DATA_DIR
+        value: /app/var
+      # Optional. With no key the engine uses the deterministic parser and nothing
+      # else changes; extraction only ever feeds non-authoritative facts.
+      # Set the value in the Render dashboard, never here.
+      - key: GEMINI_API_KEY
+        sync: false
+      # Required. Set the value in the Render dashboard, never here - the container
+      # refuses to start without it, so a public URL always answers 401 to callers
+      # that send no `Authorization: Bearer <key>`.
+      - key: ENGINE_API_KEY
+        sync: false
+      # Per caller, per minute, in this process. Loosen only if you accept that a
+      # key holder can write ledger rows as fast as the engine can decide them.
+      - key: ENGINE_RATE_LIMIT_PER_MINUTE
+        value: "60"
+    # disk:
+    #   name: compliance-ledger
+    #   mountPath: /app/var
+    #   sizeGB: 1

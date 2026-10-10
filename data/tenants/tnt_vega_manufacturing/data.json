@@ -1,0 +1,116 @@
+{
+  "tenant_id": "tnt_vega_manufacturing",
+  "display_name": "Vega Manufacturing GmbH",
+  "status": "ACTIVE",
+  "data_residency_commitment": "Process and sensor telemetry originating in the EU stays in EU regions unless a signed transfer mechanism is on file.",
+  "operating_jurisdictions": [
+    "DE",
+    "FR",
+    "IN"
+  ],
+  "approved_processing_regions": [
+    "eu-de-1",
+    "eu-fr-1",
+    "in-mh-1",
+    "us-east-1",
+    "ap-northeast-1"
+  ],
+  "forbidden_processing_regions": [
+    "cn-beijing-1"
+  ],
+  "registries": [
+    {
+      "registry_id": "reg-vega-line-telemetry",
+      "jurisdiction": "DE",
+      "home_region": "eu-de-1",
+      "categories": [
+        "manufacturing_process_telemetry",
+        "vehicle_sensor_telemetry"
+      ]
+    },
+    {
+      "registry_id": "reg-vega-customer",
+      "jurisdiction": "DE",
+      "home_region": "eu-de-1",
+      "categories": [
+        "customer_pii",
+        "contract_and_invoice_data"
+      ]
+    },
+    {
+      "registry_id": "reg-vega-payroll",
+      "jurisdiction": "DE",
+      "home_region": "eu-de-1",
+      "categories": [
+        "employee_payroll"
+      ]
+    },
+    {
+      "registry_id": "reg-vega-apac-support",
+      "jurisdiction": "IN",
+      "home_region": "in-mh-1",
+      "categories": [
+        "customer_pii",
+        "competitive_intelligence_scraped"
+      ]
+    },
+    {
+      "registry_id": "reg-vega-occupational-health",
+      "jurisdiction": "DE",
+      "home_region": "eu-de-1",
+      "categories": [
+        "health_or_biometric"
+      ],
+      "note": "Site clinic records. Never combined with telemetry; Art.9 special category."
+    }
+  ],
+  "approved_purposes": [
+    "predictive_maintenance",
+    "cross_border_operational_analytics",
+    "competitive_pricing_intelligence",
+    "statutory_reporting"
+  ],
+  "transfer_evidence": {
+    "scc_signed_doc_ref": "DPA-VEGA-2026-0117",
+    "transfer_risk_assessment_ref": "TRA-VEGA-IN-2026-Q3",
+    "supplementary_measures_ref": "SM-VEGA-2026-hybrid-kms",
+    "dpia_ref": "DPIA-VEGA-pdm-2026",
+    "bcr_approved_by_dpa": false
+  },
+  "agents": [
+    {
+      "agent_id": "agt-pricing-scout-eu",
+      "tool_class": [
+        "browser_capture",
+        "headline_parsing"
+      ],
+      "operating_regions": [
+        "eu-fr-1",
+        "eu-de-1"
+      ],
+      "allowed_purposes": [
+        "competitive_pricing_intelligence"
+      ],
+      "autonomy_level": "RECOMMEND_ONLY",
+      "may_write_pii": false,
+      "note": "Pricing recommendations stay advisory; a human approves any price commitment."
+    },
+    {
+      "agent_id": "agt-doc-intake-eu",
+      "tool_class": [
+        "document_parse",
+        "fact_extraction"
+      ],
+      "operating_regions": [
+        "eu-de-1"
+      ],
+      "allowed_purposes": [
+        "cross_border_operational_analytics",
+        "statutory_reporting"
+      ],
+      "autonomy_level": "EXTRACT_ONLY",
+      "may_write_pii": false
+    }
+  ],
+  "residency_note": "eu-de-1/eu-fr-1 are EU-sovereign processing; us-east-1 and ap-northeast-1 are analytics-only regions reachable solely under a registered transfer route."
+}

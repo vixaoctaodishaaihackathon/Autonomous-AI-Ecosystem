@@ -1,0 +1,107 @@
+{
+  "authority": {
+    "table_id": "regions",
+    "table_version": "2026.10-rc1",
+    "status": "VERIFIED_METADATA",
+    "legal_notice": "Deployment topology metadata, not a legal instrument. Region-to-jurisdiction mapping must match what is actually provisioned.",
+    "effective_date": "2026-10-01",
+    "review_cadence_days": 365
+  },
+  "regions": {
+    "eu-de-1": {
+      "jurisdiction": "DE",
+      "block": "EU",
+      "sovereign_cloud": false,
+      "provider": "hyperscaler",
+      "kms_residency": "DE"
+    },
+    "eu-fr-1": {
+      "jurisdiction": "FR",
+      "block": "EU",
+      "sovereign_cloud": false,
+      "provider": "hyperscaler",
+      "kms_residency": "FR"
+    },
+    "eu-sovereign-1": {
+      "jurisdiction": "EU",
+      "block": "EU",
+      "sovereign_cloud": true,
+      "provider": "sovereign-partner",
+      "kms_residency": "EU",
+      "third_country_access_attestation": "none"
+    },
+    "in-mh-1": {
+      "jurisdiction": "IN",
+      "block": "IND",
+      "sovereign_cloud": false,
+      "provider": "hyperscaler",
+      "kms_residency": "IN"
+    },
+    "cn-beijing-1": {
+      "jurisdiction": "CN",
+      "block": "CHN",
+      "sovereign_cloud": true,
+      "provider": "licensed-local-partner",
+      "kms_residency": "CN"
+    },
+    "ae-1": {
+      "jurisdiction": "AE",
+      "block": "MEA",
+      "sovereign_cloud": false,
+      "provider": "hyperscaler",
+      "kms_residency": "AE"
+    },
+    "us-east-1": {
+      "jurisdiction": "US",
+      "block": "NAM",
+      "sovereign_cloud": false,
+      "provider": "hyperscaler",
+      "kms_residency": "US"
+    },
+    "br-sp-1": {
+      "jurisdiction": "BR",
+      "block": "LATAM",
+      "sovereign_cloud": false,
+      "provider": "hyperscaler",
+      "kms_residency": "BR"
+    },
+    "ap-northeast-1": {
+      "jurisdiction": "JP",
+      "block": "APAC",
+      "sovereign_cloud": false,
+      "provider": "hyperscaler",
+      "kms_residency": "JP"
+    }
+  },
+  "jurisdiction_to_regions": {
+    "DE": [
+      "eu-de-1"
+    ],
+    "FR": [
+      "eu-fr-1"
+    ],
+    "EU": [
+      "eu-de-1",
+      "eu-fr-1",
+      "eu-sovereign-1"
+    ],
+    "IN": [
+      "in-mh-1"
+    ],
+    "CN": [
+      "cn-beijing-1"
+    ],
+    "AE": [
+      "ae-1"
+    ],
+    "US": [
+      "us-east-1"
+    ],
+    "BR": [
+      "br-sp-1"
+    ],
+    "JP": [
+      "ap-northeast-1"
+    ]
+  }
+}
